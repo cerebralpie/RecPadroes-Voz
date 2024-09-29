@@ -83,6 +83,6 @@ end
 Z = [X; Y];  % Formato 01 vetor de atributos por coluna: DIM(Z) = (p+1)xN
 Z = Z';      % Formato 01 vetor de atributos por linha: DIM(Z) = Nx(p+1)
 
-save -ascii recvoz.dat Z
+save -ascii data/recvoz.dat Z
 % save -ascii comandos_input.txt X
 % save -ascii comandos_output.txt Y
