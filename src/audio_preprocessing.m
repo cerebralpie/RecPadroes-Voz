@@ -11,6 +11,7 @@ clear; clc; close all
 % Fase 1 -- Carrega arquivo de audio disponiveis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+part0 = 'kit/';
 part1 = 'comando_';
 part2 = {'avancar_0' 'direita_0' 'esquerda_0' 'parar_0' 'recuar_0'};
 part3 = strvcat(part2);
@@ -24,7 +25,7 @@ Y = [];   % Matriz de rotulos (one-hot encoding);
 for i = 1:Ncom  % Indice para os comandos
     Comando = i;
     for j = 1:Nreal   % Indice para expressoes
-        nome = strcat(part1, part3(i,:), int2str(j), part4);    % Monta o nome do arquivo de audio
+        nome = strcat(part0, part1, part3(i,:), int2str(j), part4);    % Monta o nome do arquivo de audio
         [sinal, Fs] = audioread(nome); 
         
         % Etapa 2: SUBAMOSTRAGEM
