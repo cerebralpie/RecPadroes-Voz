@@ -1,5 +1,6 @@
 # RecPadroes-Voz
 
+```mermaid
 graph TD
     subgraph Power Supply
         USB_5V --- R1(10k)
@@ -35,5 +36,7 @@ graph TD
     subgraph Output
         Output --- Amplified_Out
     end
-
+```
     style V_REF fill:#f9f,stroke:#333,stroke-width:2px
+
+' 
