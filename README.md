@@ -2,41 +2,40 @@
 
 ```mermaid
 graph TD
-    subgraph Power Supply
-        USB_5V --- R1(10k)
-        R1 --- V_REF(Virtual Ground @ 2.5V)
-        V_REF --- R2(10k)
-        R2 --- GND
+    subgraph "Power Supply & Bias"
+        USB_5V(USB +5V) --> R1(10k Resistor)
+        R1 --> V_REF(Virtual Ground @ 2.5V)
+        V_REF --> R2(10k Resistor)
+        R2 --> GND(GND)
     end
 
-    subgraph Input Stage
-        Piezo_Positive --- C1(1µF)
-        Piezo_Negative --- GND
-        C1 --- D1(Zener) & D2(Zener)
-        D1 --- Non_Inv_Input(Pin 3)
-        D2 --- GND
-        subgraph Diode Protection
-            D1 --- D2
+    subgraph "Input Stage"
+        Piezo_P(Piezo +) --> C1(1µF Capacitor)
+        C1 --> InputNode{Signal Input Node}
+        Piezo_N(Piezo -) --> GND
+        subgraph "Diode Protection (in parallel)"
+            InputNode --> Diodes(Zeners)
+            Diodes --> GND
         end
     end
 
-    subgraph Amplifier
-        USB_5V --- VCC(Pin 8)
-        GND --- VEE(Pin 4)
+    subgraph "Op-Amp (TL082)"
+        %% Power Connections
+        USB_5V --> Pin8(Pin 8 - VCC +)
+        GND --> Pin4(Pin 4 - VEE/GND)
 
-        Non_Inv_Input --- TL082(U1A)
-        TL082 --- Output(Pin 1)
-        Inv_Input(Pin 2) --- R3(10k)
-        R3 --- GND
-        Inv_Input --- RV1(100k Trimpot)
-        RV1 --- Output
-        V_REF --- Non_Inv_Input
-    end
+        %% Signal Input
+        InputNode --> Pin3(Pin 3 - Non-Inv Input +)
+        V_REF --> Pin3
 
-    subgraph Output
-        Output --- Amplified_Out
+        %% Feedback Loop
+        Pin1(Pin 1 - Output) --> RV1(100k Trimpot)
+        RV1 --> Pin2(Pin 2 - Inv Input -)
+        Pin2 --> R3(10k Resistor)
+        R3 --> GND
+        
+        %% Final Output
+        Pin1 --> Amplified_Out(Amplified Output)
     end
 ```
-    style V_REF fill:#f9f,stroke:#333,stroke-width:2px
-
 ' 
